@@ -1,4 +1,4 @@
-import { Router, Response, Request } from 'express';
+import { Router } from 'express';
 
 import UserController from '../controllers/user';
 import wrapAsync from './async.wrapper';
@@ -8,11 +8,7 @@ class UserRouter {
 
   constructor() {
     this.router = Router();
-
-    this.router.get('/register', UserController.getRegister);
     this.router.post('/register', wrapAsync(UserController.postRegister));
-
-    this.router.get('/login', UserController.getLogin);
     this.router.post('/login', wrapAsync(UserController.postLogin));
 
     this.router.get('/logout', UserController.logout);

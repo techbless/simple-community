@@ -1,37 +1,30 @@
+import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { IVerifyOptions } from 'passport-local';
-import User from '../models/user';
+import * as passport from 'passport';
 
-import passport = require('passport');
+import User from '../models/user';
 
 
 class UserController {
-  public getLogin = (req: Request, res: Response) => {
-    if (req.user) {
-      return res.redirect('/');
-    }
-    res.render('account/login', {
-      title: 'Login',
-    });
-  };
-
   public postLogin = (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate('local', (err: Error, user: User, info: IVerifyOptions) => {
       if (err) { return next(err); }
       if (!user) { return res.redirect('/login'); }
 
       // eslint-disable-next-line no-shadow
-      req.logIn(user, (err) => {
+      req.logIn(user, { session: false }, (err) => {
         if (err) { return next(err); }
-        res.redirect('/');
+
+        const payload = {
+          id: user.userId,
+        };
+
+        const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: 3600 });
+
+        res.json({ user, token });
       });
     })(req, res, next);
-  }
-
-  public getRegister = (req: Request, res: Response) => {
-    res.render('account/register', {
-      title: 'Register',
-    });
   }
 
   public postRegister = async (req: Request, res: Response) => {
