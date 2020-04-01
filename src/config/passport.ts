@@ -1,47 +1,65 @@
-import * as passport from 'passport';
+import { PassportStatic } from 'passport';
 import * as passportLocal from 'passport-local';
-import { Request, Response, NextFunction } from 'express';
+import * as passportJWT from 'passport-jwt';
+
 import User from '../models/user';
 
-passport.serializeUser(async (user: User, done) => {
-  done(null, user.userId);
-});
+export default (passport: PassportStatic) => {
+  const LocalStrategy = passportLocal.Strategy;
+  const JWTStratey = passportJWT.Strategy;
+  const ExtractJWT = passportJWT.ExtractJwt;
 
-passport.deserializeUser(async (id: number, done) => {
-  const user = await User.findOne({
-    where: {
-      userId: id,
-    },
+  passport.serializeUser(async (user: User, done) => {
+    done(null, user.userId);
   });
 
-  done(null, user);
-});
-
-
-const LocalStrategy = passportLocal.Strategy;
-
-passport.use(
-  new LocalStrategy(async (username, password, done) => {
+  passport.deserializeUser(async (id: number, done) => {
     const user = await User.findOne({
       where: {
-        userName: username,
+        userId: id,
       },
     });
 
-    if (!user) {
-      return done(null, false, { message: 'Incorrect username' });
-    }
+    done(null, user);
+  });
 
-    if (user.password !== password) {
-      return done(null, false, { message: 'Incorrect password' });
-    }
+  passport.use(
+    new LocalStrategy(async (username, password, done) => {
+      const user = await User.findOne({
+        where: {
+          userName: username,
+        },
+      });
 
-    return done(null, user);
-  }),
-);
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username' });
+      }
 
+      if (user.password !== password) {
+        return done(null, false, { message: 'Incorrect password' });
+      }
 
-export const isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-  if (req.isAuthenticated()) return next();
-  res.redirect('/login');
+      return done(null, user);
+    }),
+  );
+
+  passport.use(
+    new JWTStratey({
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.JWT_SECRET,
+    },
+    async (jwtPayload, done) => {
+      const user = await User.findOne({
+        where: {
+          userId: jwtPayload.id,
+        },
+      });
+
+      if (!user) {
+        return done(null, false);
+      }
+
+      return done(null, user);
+    }),
+  );
 };
