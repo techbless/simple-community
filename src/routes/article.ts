@@ -10,9 +10,30 @@ class ArticleRouter {
 
     constructor() {
       this.router = Router();
-      this.router.get('/article/:articleId', passport.authenticate('jwt', { session: false }), wrapAsync(ArticleController.getArticle));
-      this.router.post('/article', passport.authenticate('jwt', { session: false }), wrapAsync(ArticleController.createArticle));
-      this.router.delete('/article/:articleId', ArticleController.deleteArticle);
+
+      this.router.get(
+        '/articles/',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(ArticleController.getArticles),
+      );
+
+      this.router.get(
+        '/articles/:articleId',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(ArticleController.getArticle),
+      );
+
+      this.router.post(
+        '/articles',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(ArticleController.createArticle),
+      );
+
+      this.router.delete(
+        '/articles/:articleId',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(ArticleController.deleteArticle),
+      );
     }
 }
 

@@ -12,6 +12,8 @@ class Article extends Model {
     public createdAt!: Date;
 
     public updatedAt!: Date;
+
+    public authorId!: number;
 }
 
 Article.init({
