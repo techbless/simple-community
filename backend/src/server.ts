@@ -6,7 +6,7 @@ dotenv.config();
 import { sequelize } from './models/index';
 import app from './app';
 
-sequelize.sync({ force: false })
+sequelize.sync()
   .then(() => {
     const PORT: number = +process.env.PORT! || 3000;
     app.listen(PORT, (err) => {
