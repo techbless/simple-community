@@ -9,19 +9,21 @@ export default (passport: PassportStatic) => {
   const JWTStratey = passportJWT.Strategy;
   const ExtractJWT = passportJWT.ExtractJwt;
 
-  passport.serializeUser(async (user: User, done) => {
-    done(null, user.userId);
-  });
+  // passport.serializeUser(async (user: User, done) => {
+  //   console.log('serialize');
+  //   done(null, user.userId);
+  // });
 
-  passport.deserializeUser(async (id: number, done) => {
-    const user = await User.findOne({
-      where: {
-        userId: id,
-      },
-    });
+  // passport.deserializeUser(async (id: number, done) => {
+  //   console.log('deserialize');
+  //   const user = await User.findOne({
+  //     where: {
+  //       userId: id,
+  //     },
+  //   });
 
-    done(null, user);
-  });
+  //   done(null, user);
+  // });
 
   passport.use(
     new LocalStrategy(async (username, password, done) => {
