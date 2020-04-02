@@ -8,6 +8,7 @@ import passportConfig from './config/passport';
 import IndexRouter from './routes/index';
 import UserRouter from './routes/user';
 import ArticleRouter from './routes/article';
+import CommentRouter from './routes/comment';
 
 class App {
   public app!: express.Application;
@@ -26,6 +27,7 @@ class App {
     this.app.use('/', IndexRouter);
     this.app.use('/', UserRouter);
     this.app.use('/', ArticleRouter);
+    this.app.use('/', CommentRouter);
   }
 }
 

@@ -11,7 +11,7 @@ class Comment extends Model {
 
     public updatedAt!: Date;
 
-    public postId!: Date;
+    public writterId!: number;
 }
 
 Comment.init({
@@ -22,10 +22,6 @@ Comment.init({
   },
   comment: {
     type: DataTypes.STRING(700),
-    allowNull: false,
-  },
-  postId: {
-    type: DataTypes.INTEGER,
     allowNull: false,
   },
 }, {
