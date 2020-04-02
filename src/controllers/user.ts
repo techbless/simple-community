@@ -38,11 +38,6 @@ class UserController {
 
     res.json(result);
   }
-
-  public logout = (req: Request, res: Response) => {
-    req.logout();
-    res.redirect('/');
-  };
 }
 
 export default new UserController();

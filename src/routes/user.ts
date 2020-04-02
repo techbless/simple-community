@@ -10,8 +10,6 @@ class UserRouter {
     this.router = Router();
     this.router.post('/register', wrapAsync(UserController.postRegister));
     this.router.post('/login', wrapAsync(UserController.postLogin));
-
-    this.router.get('/logout', UserController.logout);
   }
 }
 
