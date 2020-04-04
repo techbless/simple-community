@@ -40,7 +40,6 @@ Article.init({
 
 export const associate = (db: dbType) => {
   Article.belongsTo(db.User, { foreignKey: 'authorId', as: 'author' });
-  Article.hasMany(db.Comment, { foreignKey: 'articleId', as: 'comments' });
 };
 
 export default Article;
