@@ -2,36 +2,18 @@ import { Request, Response } from 'express';
 
 import User from '../models/user';
 import Article from '../models/article';
+import ArticleService from '../services/article';
+
 
 class ArticleController {
   public getArticles = async (req: Request, res: Response) => {
-    const articles = await Article.findAll({
-      include: [
-        {
-          model: User,
-          as: 'author',
-          attributes: ['username', 'email'],
-        },
-      ],
-    });
-
+    const articles = await ArticleService.getArticles()
     res.json(articles);
   }
 
   public getArticle = async (req: Request, res: Response) => {
     const { articleId } = req.params;
-    const article = await Article.findOne({
-      include: [
-        {
-          model: User,
-          as: 'author',
-          attributes: ['userName', 'email'],
-        },
-      ],
-      where: {
-        articleId,
-      },
-    });
+    const article = await ArticleService.getArticle(+articleId);
 
     if (!article) {
       res.status(404)
@@ -44,12 +26,12 @@ class ArticleController {
   }
 
   public createArticle = async (req: Request, res: Response) => {
-    const article: Article = await Article.create({
-      title: req.body.title,
-      content: req.body.content,
-      authorId: req.user?.userId,
-    });
-    res.json(article);
+    const title = req.body.title;
+    const content = req.body.title;
+    const authorId = req.user!.userId;
+
+    const article = await ArticleService.createArticle(title, content, authorId);
+    res.status(201).json(article);
   }
 
   public modifyArticle = (req: Request, res: Response) => {
@@ -57,24 +39,18 @@ class ArticleController {
   }
 
   public deleteArticle = async (req: Request, res: Response) => {
-    const { articleId } = req.params;
-    const article = await Article.findByPk(articleId);
+    const articleId: number = +req.params.articleId;
+    const userId: number = req.user!.userId;
 
-    if (!article) {
-      return res.status(404).json({
-        errorMessage: 'There is no such article.',
-      });
+    const isOwner: boolean = await ArticleService.checkOwner(userId, articleId);
+
+    if(!isOwner) {
+      return res.sendStatus(401);
     }
 
-    if (article.authorId !== req.user?.userId) {
-      return res.status(401).json({
-        errorMessage: 'You are not authorized.',
-      });
-    }
-
-    await article.destroy();
-
-    res.sendStatus(202);
+    const nDeletedRow = await ArticleService.deleteArticle(articleId);
+    if(nDeletedRow >= 1) return res.sendStatus(202);
+    else res.sendStatus(404);
   }
 }
 
