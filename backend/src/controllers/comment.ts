@@ -28,7 +28,7 @@ class CommentController {
     const comment = await Comment.create({
       articleId: req.params.articleId,
       comment: req.body.comment,
-      writter: req.user?.userId,
+      writterId: req.user?.userId,
     });
 
     res.json(comment);
