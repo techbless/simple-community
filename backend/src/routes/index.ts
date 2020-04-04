@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as passport from 'passport';
 import IndexController from '../controllers';
+import { isAuthenticated } from '../middleware/check-auth';
 
 
 class IndexRouter {
@@ -9,7 +10,10 @@ class IndexRouter {
   constructor() {
     this.router = Router();
 
-    this.router.get('/', passport.authenticate('jwt', { session: false }), IndexController.index);
+    this.router.get('/', 
+      isAuthenticated,
+      IndexController.index
+    );
   }
 }
 

@@ -3,6 +3,7 @@ import * as passport from 'passport';
 import wrapAsync from './async.wrapper';
 
 import CommentController from '../controllers/comment';
+import { isAuthenticated } from '../middleware/check-auth';
 
 class CommentRouter {
   public router!: Router;
@@ -12,19 +13,19 @@ class CommentRouter {
 
     this.router.get(
       '/articles/:articleId/comments',
-      passport.authenticate('jwt', { session: false }),
+      isAuthenticated,
       wrapAsync(CommentController.getComments),
     );
 
     this.router.post(
       '/articles/:articleId/comments',
-      passport.authenticate('jwt', { session: false }),
+      isAuthenticated,
       wrapAsync(CommentController.createComment),
     );
 
     this.router.delete(
       '/articles/:articleId/comments/:commentId',
-      passport.authenticate('jwt', { session: false }),
+      isAuthenticated,
       wrapAsync(CommentController.deleteComment),
     );
   }

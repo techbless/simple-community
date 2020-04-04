@@ -4,6 +4,7 @@ import ArticleController from '../controllers/article';
 import wrapAsync from './async.wrapper';
 
 import passport = require('passport');
+import { isAuthenticated } from '../middleware/check-auth';
 
 class ArticleRouter {
     public router!: Router;
@@ -13,25 +14,25 @@ class ArticleRouter {
 
       this.router.get(
         '/articles/',
-        passport.authenticate('jwt', { session: false }),
+        isAuthenticated,
         wrapAsync(ArticleController.getArticles),
       );
 
       this.router.get(
         '/articles/:articleId',
-        passport.authenticate('jwt', { session: false }),
+        isAuthenticated,
         wrapAsync(ArticleController.getArticle),
       );
 
       this.router.post(
         '/articles',
-        passport.authenticate('jwt', { session: false }),
+        isAuthenticated,
         wrapAsync(ArticleController.createArticle),
       );
 
       this.router.delete(
         '/articles/:articleId',
-        passport.authenticate('jwt', { session: false }),
+        isAuthenticated,
         wrapAsync(ArticleController.deleteArticle),
       );
     }
