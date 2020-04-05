@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 import * as passport from 'passport';
+import * as cors from 'cors';
 
 import passportConfig from './config/passport';
 
@@ -16,6 +17,7 @@ class App {
   constructor() {
     this.app = express();
 
+    this.app.use(cors());
     this.app.use(morgan('combined'));
     this.app.use(helmet());
     this.app.use(express.json());
