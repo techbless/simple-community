@@ -1,10 +1,9 @@
 import Comment from '../models/comment';
 import User from '../models/user';
-import { join } from 'bluebird';
-
 
 class CommentService {
-    public getComments = async (articelId: number) => {
+
+    public getComments = async (articelId: number) : Promise<Comment[]> => {
         const comments: Comment[] = await Comment.findAll({
             where: {
                 articleId: articelId

@@ -39,7 +39,7 @@ class ArticleService {
             title: title,
             content: content,
             authorId: authorId,
-        })
+        });
         
         return article;
     }
