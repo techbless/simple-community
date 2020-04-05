@@ -1,15 +1,14 @@
 import React from 'react';
-import './styles/App.css';
-import Header from './component/Header';
-import ArticleCard from './component/ArticleCard';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import { Home, NewPost } from './pages';
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-      
-      <ArticleCard title="Hello React" createdAt="2020-04-03 02:34:21"/>
-    </div>
+    <Router>
+      <Route exact path="/" component={Home} />
+      <Route path="/newpost" component={NewPost} />
+    </Router>
   );
 }
 
