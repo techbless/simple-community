@@ -1,13 +1,18 @@
 import { Request, Response } from 'express';
-
-import Comment from '../models/comment';
 import CommentService from '../services/comment';
+import ArticleService from '../services/article';
+import Article from '../models/article';
 
 class CommentController {
   public getComments = async (req: Request, res: Response) => {
     const articleId: number = + req.params.articleId;
-    const comments = await CommentService.getComments(articleId);
 
+    const doestArticleExist = await ArticleService.getArticle(articleId) ? true : false;
+    if(!doestArticleExist) {
+      return res.sendStatus(404);
+    }
+
+    const comments = await CommentService.getComments(articleId);
     res.json(comments);
   }
 
@@ -21,8 +26,8 @@ class CommentController {
   }
 
   public deleteComment = async (req: Request, res: Response) => {
-    const articleId: number = + req.params.articleId;
-    const commentId: number = + req.params.commentId;
+    const articleId: number = +req.params.articleId;
+    const commentId: number = +req.params.commentId;
     const userId: number = req.user!.userId;
 
     const isOwner: boolean = await CommentService.checkOwner(userId, commentId);

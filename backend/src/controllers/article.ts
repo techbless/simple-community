@@ -1,9 +1,5 @@
 import { Request, Response } from 'express';
-
-import User from '../models/user';
-import Article from '../models/article';
 import ArticleService from '../services/article';
-
 
 class ArticleController {
   public getArticles = async (req: Request, res: Response) => {
