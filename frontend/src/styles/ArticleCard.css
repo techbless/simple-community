@@ -21,6 +21,13 @@ p {
     padding-bottom: 10px;
 }
 
-.date {
-    font-size: 0.8em
+.author-date {
+    font-size: 0.8em;
+}
+
+.author {
+    font-weight: 700;
+    font-size: 1.2em;
+    font-style: italic;
+    padding-right: 12px;
 }

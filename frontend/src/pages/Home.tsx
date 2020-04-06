@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import api from '../api';
+import api, {getToken} from '../api';
 import Header from '../component/Header';
 import ArticleCard from '../component/ArticleCard';
+
+import '../styles/Home.css';
 
 interface IArticle {
     articleId: number;
@@ -23,7 +25,15 @@ function Home() {
     useEffect(() => {
         console.log('useEffect() entry point');
         (async () => {
-            const result = await api.get('/articles/');
+            const token = getToken();
+
+            console.log(token);
+            const result = await api.get('/articles/', {
+                headers: {
+                    Authorization: token
+                }
+            });
+
             const articles = result.data;
             setArticles(articles);
         })();
@@ -31,10 +41,15 @@ function Home() {
 
     return (
         <div>
+
             <Header />
             {
                 articles?.map((article: IArticle) => {
-                    return <ArticleCard key={article.articleId} title={article.title} createdAt={article.createdAt} />
+                    return (
+                        <a className="article-link" href={"/article/" + article.articleId}>
+                            <ArticleCard key={article.articleId} title={article.title} author={article.author.username} createdAt={article.createdAt} />
+                        </a>
+                    )
                 })
             }
 

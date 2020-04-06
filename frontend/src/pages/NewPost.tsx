@@ -3,30 +3,30 @@ import { Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
 import Header from '../component/Header';
 import '../styles/NewPost.css';
-import api from '../api';
+import api, { getToken } from '../api';
 
 async function uploadArticle(title: string, content: string) {
     await api.post(
         '/articles', {
             title: title,
-            content: content
+            content: content,
+        }, {
+            headers: {
+                Authorization: getToken()
+            }
         }
     )
-}
-
-function renderRedirect(uploaded: boolean) {
-    if (uploaded) return <Redirect to='/' />
 }
 
 function NewPost() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
-    const [uploaded, setUploaded] = useState(false);
+    const [isUploaded, setIsUploaded] = useState(false);
 
     return (
         <div>
-            { renderRedirect(uploaded) }
+            { isUploaded ? <Redirect to='/' /> : '' }
             
             <Header />
             <div className="editor">
@@ -56,7 +56,7 @@ function NewPost() {
                 <Button className="add-btn" onClick={
                     async () => {
                         await uploadArticle(title, content);
-                        setUploaded(true);
+                        setIsUploaded(true);
                     }
                 }>추가</Button>
                

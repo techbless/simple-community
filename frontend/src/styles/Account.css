@@ -1,28 +1,26 @@
-.editor {
+.login-box {
     position: relative;
     top: 45px;
-    margin: auto;
     width: 100%;
-    max-width: 768px;
+    max-width: 400px;
+    margin: auto;
     text-align: center;
-    background-color: white;
-    border-radius: 10px;;
 }
 
-.text-input {
+.idpw-input {
     width: 90%;
+    height: 40px;
+    display: inline-block;
     padding: 15px;
     margin: 10px 0 10px 0;
     border-radius: 10px;
     border: 1px solid rgba(177, 177, 177, 0.705);
 }
 
-.title-input {
-    height: 40px;
-    text-align: center;
+.name-input {
+    width: 44%;
 }
 
-.add-btn {
-    width: 220px;
-    height: 40px;
+.firstname {
+    margin-right: 2%;
 }
