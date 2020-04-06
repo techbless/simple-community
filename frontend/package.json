@@ -13,6 +13,7 @@
     "@types/react-router-dom": "^5.1.3",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "moment": "^2.24.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
     "react-dom": "^16.13.1",
@@ -40,5 +41,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/moment": "^2.13.0"
   }
 }
