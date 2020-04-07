@@ -1,0 +1,44 @@
+.reader {
+    width: 90%;
+    max-width: 1700px;
+    margin: auto;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.content-section {
+    margin: 40px 0 40px 0;
+    padding-bottom: 20px;
+    min-height: 200px;
+}
+
+.author-date {
+    padding: 5px 0 5px 7px;
+}
+
+.comment-box {
+    width: 700px;
+    max-width: 100%;
+    margin: 30px 0 15px 0;
+}
+
+.comment-input {
+    display: inline-block;
+    vertical-align: middle;
+    width: 77%;
+    height: 40px;
+    margin: 0;
+    padding: 15px;
+    border: 1px solid rgba(32, 32, 32, 0.459);
+    border-radius: 5px;
+    margin-right: 1%;
+}
+
+.comment-btn {
+    display: inline-block;
+    vertical-align: middle;
+    width: 22%;
+    height: 40px;
+    margin: 0;
+    padding: 0;
+}
