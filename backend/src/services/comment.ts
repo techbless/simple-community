@@ -20,6 +20,23 @@ class CommentService {
         return comments;
     }
 
+    public getComment = async (commentId: number) : Promise<Comment | null> => {
+        const comment: Comment | null = await Comment.findOne({
+            where: {
+                commentId: commentId
+            },
+            include: [
+                {
+                    model: User,
+                    as: 'writter',
+                    attributes: ['username', 'email'],
+                },
+            ],
+        });
+
+        return comment;
+    }
+
     public createComment = async (articleId: number, comment: string, writterId: number) : Promise<Comment> => {
         const newComment: Comment = await Comment.create({
             articleId: articleId,
