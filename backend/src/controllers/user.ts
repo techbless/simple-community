@@ -23,7 +23,7 @@ class UserController {
         // Sign a token
         const token = jwt.sign(payload, process.env.JWT_SECRET!, { expiresIn: 3600 });
         
-        res.json({ user, token });
+        res.status(200).json({ user, token });
       });
     })(req, res, next);
   }

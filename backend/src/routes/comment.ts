@@ -12,6 +12,12 @@ class CommentRouter {
     this.router = Router();
 
     this.router.get(
+      '/comments/:commentId',
+      isAuthenticated,
+      wrapAsync(CommentController.getComment),
+    );
+
+    this.router.get(
       '/articles/:articleId/comments',
       isAuthenticated,
       wrapAsync(CommentController.getComments),
