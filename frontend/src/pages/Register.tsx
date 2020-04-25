@@ -29,7 +29,7 @@ function Register() {
 
     return (
         <div>
-            { isDone ? <Redirect to='/' /> : '' }
+            { isDone && <Redirect to='/' /> }
 
             <Header />
 

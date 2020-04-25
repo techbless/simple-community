@@ -18,7 +18,7 @@ function Login() {
 
     return (
         <div>
-            { isLoggedIn ? <Redirect to='/' /> : '' }
+            { isLoggedIn && <Redirect to='/' /> }
 
             <Header />
             <div className="login-box">

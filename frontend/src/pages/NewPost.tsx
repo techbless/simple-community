@@ -26,7 +26,7 @@ function NewPost() {
 
     return (
         <div>
-            { isUploaded ? <Redirect to='/' /> : '' }
+            { isUploaded && <Redirect to='/' /> }
             
             <Header />
             <div className="editor">
